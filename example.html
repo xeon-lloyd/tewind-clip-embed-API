@@ -1,0 +1,46 @@
+<!-- 1. TewindClipEmbed API 임포트 -->
+<script src="TewindClipEmbed.js"></script>
+
+<!-- 혹은 tewind CDN 사용 -->
+<!-- <script src="https://tewind.kr/js/clip/TewindClipEmbed.js"></script> -->
+
+
+<!-- 2. 플레이어가 임베드되는 영역 (이후 .appendChild 를 통해서 #embedArea 내부에 iframe 삽입) -->
+<div id="embedArea" style="width: 800px;"></div>
+
+<!-- 재생과 일시정지 -->
+<button onclick="clip.play()">재생</button> <button onclick="clip.pause()">일시정지</button> <br>
+
+<!-- 볼륨 조절 -->
+<button onclick="clip.setVolume(0.1)">볼륨 10%</button> <button onclick="clip.setVolume(0.5)">볼륨 50%</button> <button onclick="clip.setVolume(0.9)">볼륨 90%</button> <br>
+
+<!-- 재생 시점 설정 -->
+<button onclick="clip.seekTo(10)">10초로 이동%</button> <button onclick="clip.seekTo(35)">35초로 이동</button> <br>
+
+<br>
+<div id="status"></div>
+시간 : <span id="time"></span>
+
+<script>
+    // 3. API 사용을 위해 TewindClipEmbed 객체를 clip-id 매개변수를 이용해 생성
+    let clip = new TewindClipEmbed("9213cfd405132f");
+    
+    /* 영상 재생 가능시 실행 */
+    clip.onPlayReady = function(){
+        document.getElementById('status').innerHTML = "영상 재생 가능함!"
+    }
+
+    /* 재생 시각이 업데이트 될때 실행 */
+    clip.onTimeupdate = function(){
+        document.getElementById('time').innerHTML = clip.currentTime;
+    }
+
+    /* 영상이 끝날때 실행 */
+    clip.onEnd = function(){
+        document.getElementById('status').innerHTML = "영상 끝남!"
+    }
+
+    // 4. #embedArea에 iframe 삽입 (.iframeElemet 속성 이용)
+    document.getElementById('embedArea').appendChild(clip.iframeElement)
+</script>
+
